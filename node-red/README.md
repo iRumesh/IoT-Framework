@@ -1,4 +1,4 @@
-IoT Stack Folder Structure
+node-red Folder Structure
 ============================
 
 > Folder structure
@@ -13,12 +13,13 @@ IoT Stack Folder Structure
     |   │       ├── package.json        # All nodes to be installed to palette
     |   │       ├── settings.json       # node-red settings     
     │   └── README.md                   # Doc     
-    └── mosquitto
+    └── 
 
-### Stack improvements
+### node-red improvements
 
 - [ ] node-red with custom nodes, configs, credentials automatically loaded. Themes included //Checked with firebase node
-- [ ] mosquitto with credentials
-- [ ] Influx, Grafana
-- [ ] MySQL, Adminer
+- [ ] cronjob, save flows automatically to volume
+- [ ] Encrypt, Decrypt
+- [ ] Hiding flows, running headless mode
+- [ ] HTTPS 
 

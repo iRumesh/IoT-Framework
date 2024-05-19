@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+
+  # nodered
+  nodered:
+    build: ./node-red
+    image: irumesh-node-redi
+    container_name: irumesh-node-redc
+    environment:
+      - TZ=Asia/Colombo
+      - NODE_RED_USERNAME=admin
+      - NODE_RED_PASSWORD=admin@123
+    restart: always
+    ports:
+      - "1880:1880" #Host:container
+    volumes:
+      - node-red-data:/data
+    networks:
+      - iot-network
+
+volumes:
+  node-red-data:
+
+networks:
+  iot-network: 
+    driver: bridge
