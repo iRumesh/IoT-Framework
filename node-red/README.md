@@ -23,3 +23,10 @@ node-red Folder Structure
 - [ ] Hiding flows, running headless mode
 - [ ] HTTPS 
 
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>node-red</summary>
+To enable themes, uncomment settings.js> editorTheme & In dockerfile uncomment node-red-themes
+</details>
+

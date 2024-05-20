@@ -1,9 +1,15 @@
 FROM nodered/node-red
+USER root
+# RUN addgroup rumesh && adduser -S -G rumesh rumesh
+# USER rumesh
 
 WORKDIR /data
 COPY /node-red-data/package.json /data
 RUN npm install --unsafe-perm --no-update-notifier --no-fund --only=production
 RUN npm install
+
+# Install node-red-themes
+# RUN npm install @node-red-contrib-themes/theme-collection
 
 WORKDIR /usr/src/node-red
 

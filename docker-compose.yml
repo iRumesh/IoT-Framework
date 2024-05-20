@@ -10,7 +10,7 @@ services:
     environment:
       - TZ=Asia/Colombo
       - NODE_RED_USERNAME=admin
-      - NODE_RED_PASSWORD=admin@123
+      - NODE_RED_PASSWORD=admin@1234
     restart: always
     ports:
       - "1880:1880" #Host:container

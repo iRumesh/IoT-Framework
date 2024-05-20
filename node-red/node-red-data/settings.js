@@ -1,7 +1,6 @@
 // https://nodered.org/docs/user-guide/runtime/securing-node-red#editor--admin-api-security
 
 module.exports = {
-    // Other Node-RED settings
 
     adminAuth: {
         type: "credentials",
@@ -20,5 +19,9 @@ module.exports = {
     
     credentialSecret: "Rumesh",
 
-    // Other Node-RED settings
+    // editorTheme: {
+    //     theme: "tokyo-night-storm",
+    //     tours: false,
+    // },
+
 };
