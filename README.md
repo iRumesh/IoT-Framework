@@ -1,4 +1,4 @@
-IoT Stack Folder Structure
+Mosquitto Folder Structure
 ============================
 
 > Folder structure
@@ -6,19 +6,23 @@ IoT Stack Folder Structure
 ### top-level directory brief
 
     .               
-    ├── node-red                        # Main folder include all the files related to node-red
-    │   ├── node-red-data               
-    |   |       ├── flows.json          # All the node-red flows
-    |   │       ├── flows_cred.son      # Encrypted hash of flow credentials
-    |   │       ├── package.json        # All nodes to be installed to palette
-    |   │       ├── settings.json       # node-red settings     
-    │   └── README.md                   # Doc     
-    └── mosquitto
+    ├── mosquitto                        
+    │   ├── config               
+    |   |    └─ mosquitto.conf         
+    │   ├── data               
+    |   |    └── mosquitto.db
+    │   ├── log               
+    |   |    └── mosquitto.log
+    |   │── docker-entrypoint.sh      
+    |   │── Dockerfile                      
+    │   └── README.md                        
+    |── .env
+    └── docker-compose.yml
 
-### Stack improvements
 
-- [ ] node-red with custom nodes, configs, credentials automatically loaded. Themes included //Checked with firebase node
-- [ ] mosquitto with credentials
-- [ ] Influx, Grafana
-- [ ] MySQL, Adminer
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>mosquitto</summary>
+To set user, password, mosquitto version update .env
+</details>
 
