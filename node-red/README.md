@@ -29,4 +29,3 @@ node-red Folder Structure
   <summary>node-red</summary>
 To enable themes, uncomment settings.js> editorTheme & In dockerfile uncomment node-red-themes
 </details>
-
