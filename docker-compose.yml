@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-
+# ==============================================================================
   # nodered
   nodered:
     build: ./node-red
@@ -9,8 +9,8 @@ services:
     container_name: irumesh-node-redc
     environment:
       - TZ=Asia/Colombo
-      - NODE_RED_USERNAME=admin
-      - NODE_RED_PASSWORD=admin@1234
+      - NODE_RED_USERNAME=${NODERED_USERNAME}
+      - NODE_RED_PASSWORD=${NODERED_PASSWORD}
     restart: always
     ports:
       - "1880:1880" #Host:container
@@ -18,9 +18,34 @@ services:
       - node-red-data:/data
     networks:
       - iot-network
+# ==============================================================================
+  # Eclipse Mosquitto MQTT Broker
+  mosquitto:
+    build:
+      context: ./mosquitto
+      dockerfile: Dockerfile
+      args:
+        - MOSQUITTO_VERSION=${MOSQUITTO_VERSION:-latest}
+    environment:
+      - MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
+      - MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
+    image: irumesh-mosquittoi
+    container_name: irumesh-mosquittoc
+    restart: always
+    ports:
+      - 1883:1883
+    volumes:
+      - /mosquitto/data:/mosquitto/data
+      - /mosquitto/log:/mosquitto/log
+    networks:
+      - iot-network
+# ==============================================================================
 
 volumes:
   node-red-data:
+  data:
+  log:
+
 
 networks:
   iot-network: 

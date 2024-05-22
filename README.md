@@ -13,12 +13,24 @@ IoT Stack Folder Structure
     |   │       ├── package.json        # All nodes to be installed to palette
     |   │       ├── settings.json       # node-red settings     
     │   └── README.md                   # Doc     
-    └── mosquitto
+    ├── mosquitto                        
+    │   ├── config               
+    |   |    └─ mosquitto.conf         
+    │   ├── data               
+    |   |    └── mosquitto.db
+    │   ├── log               
+    |   |    └── mosquitto.log
+    |   │── docker-entrypoint.sh      
+    |   │── Dockerfile                      
+    │   └── README.md                        
+    |── .env                            # Environment Variables
+    |── docker-compose.yml
+    |── README.md
 
 ### Stack improvements
 
-- [ ] node-red with custom nodes, configs, credentials automatically loaded. Themes included //Checked with firebase node
-- [ ] mosquitto with credentials
+- [x] node-red with custom nodes, configs, credentials automatically loaded. Themes included //Checked with firebase node
+- [x] mosquitto with credentials
 - [ ] Influx, Grafana
 - [ ] MySQL, Adminer
 
