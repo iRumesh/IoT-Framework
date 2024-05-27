@@ -22,7 +22,10 @@ IoT Stack Folder Structure
     |   |    └── mosquitto.log
     |   │── docker-entrypoint.sh      
     |   │── Dockerfile                      
-    │   └── README.md                        
+    │   └── README.md  
+    ├── portainer                       
+    │   ├── portainer              
+    |        └─ Dockerfile     
     |── .env                            # Environment Variables
     |── docker-compose.yml
     |── README.md
@@ -31,6 +34,7 @@ IoT Stack Folder Structure
 
 - [x] node-red with custom nodes, configs, credentials automatically loaded. Themes included //Checked with firebase node
 - [x] mosquitto with credentials
+- [ ] portainer
 - [ ] Influx, Grafana
 - [ ] MySQL, Adminer
 
