@@ -40,11 +40,34 @@ services:
     networks:
       - iot-network
 # ==============================================================================
+  portainer:
+    build:
+      context: ./portainer
+    command: -H unix:///var/run/docker.sock
+    image: irumesh-portaineri
+    container_name: irumesh-portainerc
+    restart: always
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "4m"
+        max-file: "10"
+    environment:
+      - VIRTUAL_PORT=9000
+    networks:
+        - iot-network
+    ports:
+      - 9000:9000
 
+# ============================================================================== 
 volumes:
   node-red-data:
   data:
   log:
+  portainer_data:
 
 
 networks:
