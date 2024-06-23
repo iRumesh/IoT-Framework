@@ -1,31 +1,40 @@
-version: "3.8"
-#https://docs.portainer.io/advanced/cli
+version: '3.8'
 services:
   portainer:
-    build:
-      context: portainer/
-    container_name: portainer
+    build: ./portainer
+    container_name: irumesh-portainerc
+    image: irumesh-portaineri
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    command:
+   #   - '-H unix:///var/run/docker.sock'
+      - '--admin-password-file=/run/secrets/portainer_admin_password'
+      - '--no-analytics'
     logging:
       driver: json-file
       options:
         max-size: "4m"
         max-file: "10"
-    environment:
-      - VIRTUAL_PORT=9000
     networks:
       - iot-network
     ports:
-      - 9000:9000
-    
+      - "9000:9000"
+    secrets:
+      - portainer_admin_password
+
+
+networks:
+  iot-network:
+    driver: bridge
 
 volumes:
   portainer_data:
 
+secrets:
+  portainer_admin_password:
+    file: ./portainer/portainer_admin_password
 
-networks:
-  iot-network: 
-    driver: bridge
+
+ 
