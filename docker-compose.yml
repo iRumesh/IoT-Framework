@@ -40,27 +40,31 @@ services:
     networks:
       - iot-network
 # ==============================================================================
+  # Portainer GUI for docker management
   portainer:
-    build:
-      context: ./portainer
-    command: -H unix:///var/run/docker.sock
-    image: irumesh-portaineri
+    build: ./portainer
     container_name: irumesh-portainerc
+    image: irumesh-portaineri
     restart: always
     volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    command:
+   #   - '-H unix:///var/run/docker.sock'
+      - '--admin-password-file=/run/secrets/portainer_admin_password'
+      - '--no-analytics'
     logging:
       driver: json-file
       options:
         max-size: "4m"
         max-file: "10"
-    environment:
-      - VIRTUAL_PORT=9000
     networks:
-        - iot-network
+      - iot-network
     ports:
-      - 9000:9000
+      - "9000:9000"
+    secrets:
+      - portainer_admin_password
+
 
 # ============================================================================== 
 volumes:
@@ -69,7 +73,10 @@ volumes:
   log:
   portainer_data:
 
-
 networks:
   iot-network: 
     driver: bridge
+
+secrets:
+  portainer_admin_password:
+    file: ./portainer/portainer_admin_password

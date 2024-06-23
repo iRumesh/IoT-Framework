@@ -24,8 +24,9 @@ IoT Stack Folder Structure
     |   │── Dockerfile                      
     │   └── README.md  
     ├── portainer                       
-    │   ├── portainer              
-    |        └─ Dockerfile     
+    │   ├── portainer                 
+    |        ├── Dockerfile           
+    |        └── portainer_admin_password   # Portainer admin password
     |── .env                            # Environment Variables
     |── docker-compose.yml
     |── README.md
@@ -34,7 +35,7 @@ IoT Stack Folder Structure
 
 - [x] node-red with custom nodes, configs, credentials automatically loaded. Themes included //Checked with firebase node
 - [x] mosquitto with credentials
-- [ ] portainer
+- [x] portainer with credentials
 - [ ] Influx, Grafana
 - [ ] MySQL, Adminer
-
+- [ ] reverse proxy (traefik vs nginx)
