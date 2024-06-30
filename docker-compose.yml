@@ -6,7 +6,7 @@ services:
   nodered:
     build: ./node-red
     image: irumesh-node-redi
-    container_name: irumesh-node-redc
+    container_name: node-redc
     environment:
       - TZ=Asia/Colombo
       - NODE_RED_USERNAME=${NODERED_USERNAME}
@@ -18,6 +18,8 @@ services:
       - node-red-data:/data
     networks:
       - iot-network
+    # depends_on:
+    #   - db
 # ==============================================================================
   # Eclipse Mosquitto MQTT Broker
   mosquitto:
@@ -30,7 +32,7 @@ services:
       - MOSQUITTO_USERNAME=${MOSQUITTO_USERNAME}
       - MOSQUITTO_PASSWORD=${MOSQUITTO_PASSWORD}
     image: irumesh-mosquittoi
-    container_name: irumesh-mosquittoc
+    container_name: mosquittoc
     restart: always
     ports:
       - 1883:1883
@@ -43,7 +45,7 @@ services:
   # Portainer GUI for docker management
   portainer:
     build: ./portainer
-    container_name: irumesh-portainerc
+    container_name: portainerc
     image: irumesh-portaineri
     restart: always
     volumes:
@@ -69,15 +71,32 @@ services:
 # ============================================================================== 
   adminer:
     image: adminer
+    container_name: adminerc
     restart: always
     ports:
       - 8080:8080
+    networks:
+      - iot-network
 
   db:
     image: mysql:5.6
+    container_name: mysqlc
     restart: always
+    ports:
+      - 3306:3306
+    # command: --init-file /data/application/init.sql
+    # # volumes:
+    # #     - ./mysql/init.sql:/data/application/init.sql
+    # #     - ./mysql/db_data:/var/lib/mysql
+
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: example112
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_DATABASE: espdata
+    networks:
+      - iot-network
 # ==============================================================================     
 
 volumes:
@@ -85,6 +104,8 @@ volumes:
   data:
   log:
   portainer_data:
+  db_data:
+  init.sql:
 
 networks:
   iot-network: 
