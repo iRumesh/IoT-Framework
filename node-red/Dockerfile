@@ -1,4 +1,4 @@
-FROM nodered/node-red
+FROM nodered/node-red:4.0.8-22
 USER root
 # RUN addgroup rumesh && adduser -S -G rumesh rumesh
 # USER rumesh

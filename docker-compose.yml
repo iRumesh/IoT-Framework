@@ -1,4 +1,6 @@
-version: '3.8'
+# Description: Docker compose file for the IoT stack
+# Author: Rumesh
+# Stack: Node-RED, Mosquitto, Portainer, Adminer, MySQL
 
 services:
 # ==============================================================================
@@ -18,8 +20,8 @@ services:
       - node-red-data:/data
     networks:
       - iot-network
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
 # ==============================================================================
   # Eclipse Mosquitto MQTT Broker
   mosquitto:
@@ -69,6 +71,7 @@ services:
 
 
 # ============================================================================== 
+# Adminer for MySQL database management
   adminer:
     image: adminer
     container_name: adminerc
@@ -79,22 +82,23 @@ services:
       - iot-network
 
   db:
-    image: mysql:5.6
+    image: mysql:9.1.0
     container_name: mysqlc
     restart: always
     ports:
       - 3306:3306
-    # command: --init-file /data/application/init.sql
-    # # volumes:
-    # #     - ./mysql/init.sql:/data/application/init.sql
-    # #     - ./mysql/db_data:/var/lib/mysql
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./mysql/init.sql:/data/application/init.sql
+      - ./mysql/db_data:/var/lib/mysql
 
     environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: example112
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
-      MYSQL_DATABASE: espdata
+      - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+
     networks:
       - iot-network
 # ==============================================================================     

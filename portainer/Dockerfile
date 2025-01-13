@@ -1,1 +1,1 @@
-FROM portainer/portainer-ce:latest
+FROM portainer/portainer-ce:2.25.1-alpine
