@@ -82,15 +82,15 @@ services:
       - iot-network
 
   db:
-    image: mysql:9.1.0
+    image: mysql:5.6
     container_name: mysqlc
     restart: always
     ports:
       - 3306:3306
-    command: --init-file /data/application/init.sql
-    volumes:
-      - ./mysql/init.sql:/data/application/init.sql
-      - ./mysql/db_data:/var/lib/mysql
+    # command: --init-file /data/application/init.sql
+    # volumes:
+    #   - ./mysql/init.sql:/data/application/init.sql
+    #   - ./mysql/db_data:/var/lib/mysql
 
     environment:
       - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
@@ -108,8 +108,8 @@ volumes:
   data:
   log:
   portainer_data:
-  db_data:
-  init.sql:
+  # db_data:
+  # init.sql:
 
 networks:
   iot-network: 
