@@ -25,8 +25,11 @@ IoT Stack Folder Structure
     │   └── README.md  
     ├── portainer                       
     │   ├── portainer                 
-    |        ├── Dockerfile           
-    |        └── portainer_admin_password   # Portainer admin password
+    |   |    ├── Dockerfile           
+    |   |    └── portainer_admin_password   # Portainer admin password
+    ├── mysql 
+    │   ├── dbdata
+    │   ├── init.sql        
     |── .env                            # Environment Variables
     |── docker-compose.yml
     |── README.md

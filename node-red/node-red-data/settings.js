@@ -20,7 +20,8 @@ module.exports = {
     credentialSecret: "Rumesh",
 
     // editorTheme: {
-    //     theme: "tokyo-night-storm",
+    //     // theme: "tokyo-night-storm",
+    //     theme: "tokyo-night-light",
     //     tours: false,
     // },
 

@@ -1,4 +1,6 @@
-version: '3.8'
+# Description: Docker compose file for the IoT stack
+# Author: Rumesh
+# Stack: Node-RED, Mosquitto, Portainer, Adminer, MySQL
 
 services:
 # ==============================================================================
@@ -16,10 +18,13 @@ services:
       - "1880:1880" #Host:container
     volumes:
       - node-red-data:/data
+      # - ./node-red/node-red-data1:/data
+      # - ./node-red/node-red-default:/data
+
     networks:
       - iot-network
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
 # ==============================================================================
   # Eclipse Mosquitto MQTT Broker
   mosquitto:
@@ -50,7 +55,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./portainer/portainer_data:/data
     command:
    #   - '-H unix:///var/run/docker.sock'
       - '--admin-password-file=/run/secrets/portainer_admin_password'
@@ -69,6 +74,7 @@ services:
 
 
 # ============================================================================== 
+# Adminer for MySQL database management
   adminer:
     image: adminer
     container_name: adminerc
@@ -85,27 +91,28 @@ services:
     ports:
       - 3306:3306
     # command: --init-file /data/application/init.sql
-    # # volumes:
-    # #     - ./mysql/init.sql:/data/application/init.sql
-    # #     - ./mysql/db_data:/var/lib/mysql
+    # volumes:
+    #   - ./mysql/init.sql:/data/application/init.sql
+    #   - ./mysql/db_data:/var/lib/mysql
 
     environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: example112
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
-      MYSQL_DATABASE: espdata
+      - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+
     networks:
       - iot-network
 # ==============================================================================     
 
 volumes:
   node-red-data:
-  data:
   log:
   portainer_data:
-  db_data:
-  init.sql:
+    # external: true
+  # db_data:
+  # init.sql:
 
 networks:
   iot-network: 
