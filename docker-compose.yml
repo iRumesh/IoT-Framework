@@ -1,6 +1,6 @@
 # Description: Docker compose file for the IoT stack
 # Author: Rumesh
-# Stack: Node-RED, Mosquitto, Portainer, Adminer, MySQL
+# Stack: Node-RED, Mosquitto, Portainer, Adminer, MySQL, Influxdb
 
 services:
 # ==============================================================================
@@ -16,6 +16,9 @@ services:
     restart: always
     ports:
       - "1880:1880" #Host:container
+    depends_on:
+      - mosquitto
+      - mysql
     volumes:
       - node-red-data:/data
       # - ./node-red/node-red-data1:/data
@@ -23,8 +26,6 @@ services:
 
     networks:
       - iot-network
-    depends_on:
-      - db
 # ==============================================================================
   # Eclipse Mosquitto MQTT Broker
   mosquitto:
@@ -41,12 +42,69 @@ services:
     restart: always
     ports:
       - 1883:1883
+      - 9001:9001 # for websockets
     volumes:
       - /mosquitto/data:/mosquitto/data
       - /mosquitto/log:/mosquitto/log
     networks:
       - iot-network
+
+# ============================================================================== 
+# Adminer for MySQL database management
+  adminer:
+    image: adminer
+    container_name: adminerc
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - iot-network
+
+  mysql:
+    image: mysql:5.6
+    container_name: mysqlc
+    restart: always
+    ports:
+      - 3306:3306
+    # command: --init-file /data/application/init.sql
+    # volumes:
+    #   - ./mysql/init.sql:/data/application/init.sql
+    #   - ./mysql/db_data:/var/lib/mysql
+
+    environment:
+      - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+
+    networks:
+      - iot-network
 # ==============================================================================
+# Influxdb as timeseries db
+# http://localhost:8086/api/v2/config
+  influxdb:
+    image: influxdb:2.7.12-alpine
+    container_name: influxdbc
+    ports:
+      - "8086:8086"
+    env_file:
+      - 'influxdb/.env'
+      # - '.env'
+    volumes:
+      - ./influxdb/influxdb-data:/var/lib/influxdb2
+      - ./influxdb/influxdb-config:/etc/influxdb2/influx-configs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/ping"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+    networks:
+      - iot-network
+
+# ==============================================================================
+
   # Portainer GUI for docker management
   portainer:
     build: ./portainer
@@ -71,45 +129,21 @@ services:
       - "9000:9000"
     secrets:
       - portainer_admin_password
+    depends_on:
+      - nodered
+      - mosquitto
+      - adminer
+      - mysql
+      - influxdb
 
-
-# ============================================================================== 
-# Adminer for MySQL database management
-  adminer:
-    image: adminer
-    container_name: adminerc
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - iot-network
-
-  db:
-    image: mysql:5.6
-    container_name: mysqlc
-    restart: always
-    ports:
-      - 3306:3306
-    # command: --init-file /data/application/init.sql
-    # volumes:
-    #   - ./mysql/init.sql:/data/application/init.sql
-    #   - ./mysql/db_data:/var/lib/mysql
-
-    environment:
-      - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-
-    networks:
-      - iot-network
 # ==============================================================================     
 
 volumes:
   node-red-data:
   log:
   portainer_data:
+  influxdb-data:
+  influxdb-config:
     # external: true
   # db_data:
   # init.sql:

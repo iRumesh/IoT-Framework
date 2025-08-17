@@ -1,0 +1,31 @@
+#docker pull influxdb:3.3.0-core
+# docker pull influxdb:3-core
+# influxdb:2.7.12-alpine
+
+services:
+  influxdb:
+    image: influxdb:2.7.12-alpine
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    env_file:
+      - 'influxdb/.env'
+    volumes:
+      - ./influxdb/influxdb-data:/var/lib/influxdb2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/ping"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+    networks:
+      - iot-network
+      
+
+volumes:
+  influxdb-data:
+  influxdb-config:
+
+networks:
+  iot-network:
+    driver: bridge
