@@ -1,13 +1,13 @@
 services:
 
   adminer:
-    image: adminer
+    image: adminer:5.3.0
     restart: always
     ports:
       - 8080:8080
 
   db:
-    image: mysql:9.1.0
+    image: mysql:9.4.0
     restart: always
     environment:
       - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}

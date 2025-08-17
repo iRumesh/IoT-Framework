@@ -18,6 +18,9 @@ services:
       - "1880:1880" #Host:container
     volumes:
       - node-red-data:/data
+      # - ./node-red/node-red-data1:/data
+      # - ./node-red/node-red-default:/data
+
     networks:
       - iot-network
     depends_on:
@@ -52,7 +55,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./portainer/portainer_data:/data
     command:
    #   - '-H unix:///var/run/docker.sock'
       - '--admin-password-file=/run/secrets/portainer_admin_password'
@@ -105,9 +108,9 @@ services:
 
 volumes:
   node-red-data:
-  data:
   log:
   portainer_data:
+    # external: true
   # db_data:
   # init.sql:
 
