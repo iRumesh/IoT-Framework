@@ -19,10 +19,31 @@ module.exports = {
     
     credentialSecret: "Rumesh",
 
-    // editorTheme: {
-    //     // theme: "tokyo-night-storm",
-    //     theme: "tokyo-night-light",
-    //     tours: false,
-    // },
+
+    editorTheme: {
+        login: {
+            image: "/data/node-red.svg" // a 256x256 image
+        },
+        logout: {
+            redirect: "https://rumesh.is-a.dev/findme/"
+        },
+        page: {
+        title: "Rumesh-RED",
+        },
+        header: {
+            title: "RumeshH-RED",
+            url: "https://rumesh.is-a.dev/findme/" // optional url to make the header text/image a link to this url
+        },
+        // deployButton: {
+        //     type:"simple",
+        //     label:"Save",
+        //     icon: "/data/node-red.svg" // or null to remove image
+            
+        },
+        tours: false,
+        // theme: "tokyo-night-light",
+        // theme: "tokyo-night-storm",
+
+    },
 
 };

@@ -20,3 +20,8 @@ WORKDIR /usr/src/node-red
 COPY /node-red-data/settings.js /data/settings.js
 COPY /node-red-data/flows_cred.json /data/flows_cred.json
 COPY /node-red-data/flows.json /data/flows.json
+COPY /node-red-data/logo.svg ./node_modules/@node-red/editor-client/public/red/images/node-red-256.svg
+COPY /node-red-data/logo.svg ./node_modules/@node-red/editor-client/public/red/images/node-red.svg
+COPY /node-red-data/logo.ico ./node_modules/@node-red/editor-client/public/favicon.ico
+
+COPY /node-red-data/logo.svg /data/node-red.svg
