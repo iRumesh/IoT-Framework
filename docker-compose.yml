@@ -46,6 +46,7 @@ services:
     volumes:
       - /mosquitto/data:/mosquitto/data
       - /mosquitto/log:/mosquitto/log
+      - /mosquitto/config:/mosquitto/config
     networks:
       - iot-network
 
@@ -108,8 +109,8 @@ services:
   # Portainer GUI for docker management
   portainer:
     build: ./portainer
-    container_name: portainerc
     image: irumesh-portaineri
+    container_name: portainerc
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -135,16 +136,43 @@ services:
       - adminer
       - mysql
       - influxdb
+      # - grafana
 
-# ==============================================================================     
+# ==============================================================================
+
+ # Grafana for Dashboard Management
+  grafana:
+    image: irumesh-grafanai
+    build:
+      context: ./grafana
+    container_name: irumeshc
+    restart: unless-stopped
+    env_file:
+      - './grafana/.env'
+    # if you are running as root then set it to 0
+    # else find the right id with the id -u command
+    user: '0'
+    # user: "472"
+    ports:
+      - 3000:3000/tcp
+    # adding the mount volume point which we create earlier
+    volumes:
+      - ./grafana/grafana_data:/var/lib/grafana
+      - ./grafana/grafana_data/plugins:/var/lib/grafana/plugins
+    networks:
+      - iot-network
+
+# ==============================================================================
 
 volumes:
   node-red-data:
   log:
   portainer_data:
+      # external: true
   influxdb-data:
   influxdb-config:
-    # external: true
+  grafana_data:
+    external: true
   # db_data:
   # init.sql:
 

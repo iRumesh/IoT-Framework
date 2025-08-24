@@ -13,8 +13,9 @@ IoT Stack
 | **Mosquitto** | 1883, 9001             |
 | **Adminer**   | 8080     |
 | **MySQL**     | 3306  |                |
-| **InfluxDB**     | 8086  |                |
-| **Portainer**     | 9000  |                |
+| **InfluxDB**  | 8086  |                |
+| **Grafana**   | 3000  |                |
+| **Portainer** | 9000  |                |
 ---
 
 
@@ -52,6 +53,10 @@ IoT Stack
     │   ├── influxdb-config                 # Docker Volume
     │   ├── influxdb-data                   # Docker Volume 
     │   ├── .env          
+    ├── grafana
+    │   ├── grafana_data                    # Docker Volume
+    │   ├── dockerfile                   
+    │   ├── .env     
     |── .env                            # Environment Variables
     |── docker-compose.yml
     |── README.md
@@ -72,7 +77,7 @@ $ docker-compose up --build
 - [x] portainer with credentials
 - [x] Influx 2.7.12
 - [x] MySQL, Adminer
-- [ ] Grafana
+- [x] Grafana
 - [ ] reverse proxy (traefik vs nginx)
 
 ### References
